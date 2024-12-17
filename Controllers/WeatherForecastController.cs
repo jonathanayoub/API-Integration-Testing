@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ApiIntegrationTesting;
+namespace ApiIntegrationTesting.Controllers;
 
 [ApiController]
 [Route("api/weather-forecasts")]
