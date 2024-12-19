@@ -2,7 +2,6 @@
 
 public class WorkOrderRouting : BaseEntity
 {
-    public int WorkOrderId { get; set; }
     public int ProductId { get; set; }
     public short OperationSequence { get; set; }
     public short LocationId { get; set; }
@@ -16,6 +15,5 @@ public class WorkOrderRouting : BaseEntity
     public DateTime ModifiedDate { get; set; }
 
     public virtual Location Location { get; set; }
-    public virtual WorkOrder WorkOrder { get; set; }
     public virtual Product Product { get; set; }
 }

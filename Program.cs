@@ -1,3 +1,6 @@
+using ApiIntegrationTesting.Database;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+// Register AdventureWorksDbContext with the connection string from appsettings.json
+builder.Services.AddDbContext<AdventureWorksDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection")));
 
 var app = builder.Build();
 

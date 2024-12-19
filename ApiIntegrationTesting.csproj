@@ -27,4 +27,26 @@
       <Folder Include="Database\Entities\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="ApiIntegrationTesting.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="ApiIntegrationTesting.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="ApiIntegrationTesting.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="ApiIntegrationTesting.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\obj\ApiIntegrationTesting.Tests.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\obj\project.packagespec.json" />
+    </ItemGroup>
+
 </Project>
