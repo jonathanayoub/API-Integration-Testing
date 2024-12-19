@@ -74,5 +74,8 @@ public class AdventureWorksDbContext : DbContext
     {
         var assemblyWithConfigurations = GetType().Assembly;
         modelBuilder.ApplyConfigurationsFromAssembly(assemblyWithConfigurations);
+        
+        //---------------- Seeding Data
+        AdventureWorksSeedData.LoadSeedData(modelBuilder);
     }
 }

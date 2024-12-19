@@ -47,6 +47,12 @@
       <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\obj\ApiIntegrationTesting.Tests.csproj.nuget.dgspec.json" />
       <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\obj\project.assets.json" />
       <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\bin\Debug\net8.0\ApiIntegrationTesting.deps.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\bin\Debug\net8.0\ApiIntegrationTesting.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\bin\Debug\net8.0\ApiIntegrationTesting.Tests.deps.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\bin\Debug\net8.0\ApiIntegrationTesting.Tests.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\bin\Debug\net8.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="ApiIntegrationTesting.Tests\bin\Debug\net8.0\appsettings.json" />
     </ItemGroup>
 
 </Project>
