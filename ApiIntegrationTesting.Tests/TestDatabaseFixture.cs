@@ -13,7 +13,7 @@ namespace ApiIntegrationTesting.Tests;
 internal static class TestDatabaseFixture
 {
     private const string ConnectionString =
-        @"Data Source=127.0.0.1,1433;Initial Catalog=db-kpd-scus-efp-integration;User Id=sa;Password=P@ssw0rd;Column Encryption Setting=enabled;TrustServerCertificate=True";
+        @"Data Source=127.0.0.1,1433;Initial Catalog=api-integration-testing;User Id=sa;Password=P@ssw0rd;Column Encryption Setting=enabled;TrustServerCertificate=True";
 
     public static async Task<AdventureWorksDbContext> CreateContext(
     )
