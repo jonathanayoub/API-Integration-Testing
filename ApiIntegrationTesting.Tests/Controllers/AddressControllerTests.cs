@@ -1,6 +1,12 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
+using System.Transactions;
+using ApiIntegrationTesting.Database;
 using ApiIntegrationTesting.Database.Entities;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiIntegrationTesting.Tests.Controllers;
 
@@ -8,7 +14,7 @@ namespace ApiIntegrationTesting.Tests.Controllers;
 public class AddressControllerTests
 {
     private readonly HttpClient _httpClient;
-    
+
     public AddressControllerTests()
     {
         var factory = new CustomWebApplicationFactory();
@@ -40,5 +46,27 @@ public class AddressControllerTests
             new() { AddressId = 10, AddressLine1 = "707 Spruce St", AddressLine2 = "Apt 10", City = "Albuquerque", StateProvinceId = 8, PostalCode = "87101", Rowguid = Guid.Parse("6F9880F9-6E89-4FD9-B88B-3131970863C5"), ModifiedDate = new DateTime(2024, 12, 19) }
         };
         result.Should().BeEquivalentTo(expectedResult);
+    }
+    
+    [TestMethod]
+    public async Task GivenUpdatedAddressData_PutAddresses_ReturnsUpdatedAddresses()
+    {
+        var updatedAddresses = new List<AddressEntity>
+        {
+            new() { AddressId = 1, AddressLine1 = "Main Street Change", AddressLine2 = "Apt change", City = "Seattle", StateProvinceId = 1, PostalCode = "98101", Rowguid = Guid.Parse("665356E2-4C0F-4242-8FAE-E3233BFC2AA2"), ModifiedDate = new DateTime(2024, 12, 19) },
+        };
+        string json = JsonSerializer.Serialize(updatedAddresses);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        
+        HttpResponseMessage response = await _httpClient.PutAsync("api/addresses", content);
+        
+        response.EnsureSuccessStatusCode();
+        
+        string responseString = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<List<AddressEntity>>(
+            responseString, 
+            options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+        );
+        result.Should().BeEquivalentTo(updatedAddresses);
     }
 }

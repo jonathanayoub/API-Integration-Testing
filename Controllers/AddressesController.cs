@@ -16,4 +16,14 @@ public class AddressesController(AdventureWorksDbContext dbContext) : Controller
     {
         return await _dbContext.Addresses.ToListAsync();
     }
+    
+    [HttpPut]
+    public async Task<ActionResult<List<AddressEntity>>> UpdateAddress(List<AddressEntity> addresses)
+    {
+        var updatedAddresses = new List<AddressEntity>
+        {
+            new() { AddressId = 1, AddressLine1 = "Main Street Change", AddressLine2 = "Apt change", City = "Seattle", StateProvinceId = 1, PostalCode = "98101", Rowguid = Guid.Parse("665356E2-4C0F-4242-8FAE-E3233BFC2AA2"), ModifiedDate = new DateTime(2024, 12, 19) },
+        };
+        return Ok(updatedAddresses);
+    }
 }
