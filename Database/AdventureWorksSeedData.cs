@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiIntegrationTesting.Database;
 
-internal static class AdventureWorksSeedData
+public static class AdventureWorksSeedData
 {
-    internal static void LoadSeedData(ModelBuilder modelBuilder)
+    public static void LoadSeedData(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AddressEntity>().HasData(AddressEntities);
         modelBuilder.Entity<StateProvinceEntity>().HasData(StateProvinceEntities);
@@ -13,7 +13,7 @@ internal static class AdventureWorksSeedData
         modelBuilder.Entity<CountryRegionEntity>().HasData(CountryRegionEntities);
     }
 
-    private static AddressEntity[] AddressEntities { get; } =
+    public static AddressEntity[] AddressEntities { get; } =
     [
         new() { AddressId = 1, AddressLine1 = "123 Main St", AddressLine2 = "Apt 1", City = "Seattle", StateProvinceId = 1, PostalCode = "98101", Rowguid = Guid.Parse("665356E2-4C0F-4242-8FAE-E3233BFC2AA2"), ModifiedDate = new DateTime(2024, 12, 19) },
         new() { AddressId = 2, AddressLine1 = "456 Elm St", AddressLine2 = "Apt 2", City = "Portland", StateProvinceId = 2, PostalCode = "97201", Rowguid = Guid.Parse("FE8F357A-2BD0-4B56-A62A-895C8C5F9860"), ModifiedDate = new DateTime(2024, 12, 19) },
@@ -27,7 +27,7 @@ internal static class AdventureWorksSeedData
         new() { AddressId = 10, AddressLine1 = "707 Spruce St", AddressLine2 = "Apt 10", City = "Albuquerque", StateProvinceId = 8, PostalCode = "87101", Rowguid = Guid.Parse("6F9880F9-6E89-4FD9-B88B-3131970863C5"), ModifiedDate = new DateTime(2024, 12, 19) }
     ];
     
-    private static StateProvinceEntity[] StateProvinceEntities { get; } =
+    public static StateProvinceEntity[] StateProvinceEntities { get; } =
     [
         new() { StateProvinceId = 1, StateProvinceCode = "WA", CountryRegionCode = "US", IsOnlyStateProvinceFlag = true, Name = "Washington", TerritoryId = 1, Rowguid = Guid.Parse("A1C8400E-2E66-490D-B07D-152FD20A98F4"), ModifiedDate = new DateTime(2024, 12, 19) },
         new() { StateProvinceId = 2, StateProvinceCode = "OR", CountryRegionCode = "US", IsOnlyStateProvinceFlag = true, Name = "Oregon", TerritoryId = 2, Rowguid = Guid.Parse("DBEC4896-8168-428B-AB32-3B065D3F44D0"), ModifiedDate = new DateTime(2024, 12, 19) },
@@ -39,7 +39,7 @@ internal static class AdventureWorksSeedData
         new() { StateProvinceId = 8, StateProvinceCode = "NM", CountryRegionCode = "US", IsOnlyStateProvinceFlag = true, Name = "New Mexico", TerritoryId = 8, Rowguid = Guid.Parse("AA6007F7-D166-4F34-820F-634006614C2D"), ModifiedDate = new DateTime(2024, 12, 19) },
     ];
     
-    private static SalesTerritoryEntity[] SalesTerritoryEntities { get; } = 
+    public static SalesTerritoryEntity[] SalesTerritoryEntities { get; } = 
     [
         new() { TerritoryId = 1, Name = "Northwest", CountryRegionCode = "US", Group = "North America", SalesYtd = 1000000, SalesLastYear = 900000, CostYtd = 500000, CostLastYear = 400000, Rowguid = Guid.Parse("BBF61FC8-BEF4-4CF5-83C8-F333848C2FF3"), ModifiedDate = new DateTime(2024, 12, 19) },
         new() { TerritoryId = 2, Name = "Pacific", CountryRegionCode = "US", Group = "North America", SalesYtd = 2000000, SalesLastYear = 1800000, CostYtd = 1000000, CostLastYear = 800000, Rowguid = Guid.Parse("1EC0795F-AB37-48BC-9F94-E3C1C52DDDFA"), ModifiedDate = new DateTime(2024, 12, 19) },
@@ -51,7 +51,7 @@ internal static class AdventureWorksSeedData
         new() { TerritoryId = 8, Name = "Midwest", CountryRegionCode = "US", Group = "North America", SalesYtd = 8000000, SalesLastYear = 7200000, CostYtd = 4000000, CostLastYear = 3200000, Rowguid = Guid.Parse("9E2BF3D1-7D16-451F-BB9D-6D3B7EDDE396"), ModifiedDate = new DateTime(2024, 12, 19) },
     ];
     
-    private static CountryRegionEntity[] CountryRegionEntities { get; } = 
+    public static CountryRegionEntity[] CountryRegionEntities { get; } = 
     [
         new() { CountryRegionCode = "US", Name = "United States", ModifiedDate = new DateTime(2024, 12, 19) }
     ];}

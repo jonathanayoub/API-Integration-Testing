@@ -37,7 +37,7 @@ public class AddressControllerTests
         
         response.EnsureSuccessStatusCode();
         
-        AdventureWorksDbContext dbContext = await TestDatabaseFixture.CreateContext();
+        AdventureWorksDbContext dbContext = TestDatabaseFixture.CreateContext();
         List<AddressEntity> updatedAddressesResult = dbContext.Addresses.Where(a => a.AddressId == 1 || a.AddressId == 2 || a.AddressId == 3).ToList();
         updatedAddressesResult.Should().BeEquivalentTo(updatedAddresses);
     }
@@ -91,5 +91,11 @@ public class AddressControllerTests
             options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
         );
         result.Should().BeEquivalentTo(updatedAddresses);
+    }
+    
+    [TestCleanup]
+    public async Task Cleanup()
+    {
+        await TestDatabaseFixture.ResetDatabase();
     }
 }

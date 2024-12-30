@@ -18,8 +18,9 @@ public class TestRunInitialize
         _sqlServerFixture.CreateServer();
 
         // Create the database
-        AdventureWorksDbContext context = await TestDatabaseFixture.CreateContext();
+        AdventureWorksDbContext context = TestDatabaseFixture.CreateContext();
         await context.Database.EnsureCreatedAsync();
+        await TestDatabaseFixture.ResetDatabase();
     }
 
     [AssemblyCleanup]
