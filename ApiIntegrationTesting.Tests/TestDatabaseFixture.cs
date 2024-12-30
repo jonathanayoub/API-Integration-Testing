@@ -1,5 +1,7 @@
 ﻿#region
 
+using System.Collections;
+using System.Reflection;
 using ApiIntegrationTesting.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -16,8 +18,7 @@ internal static class TestDatabaseFixture
     private const string ConnectionString =
         @"Data Source=127.0.0.1,1433;Initial Catalog=api-integration-testing;User Id=sa;Password=P@ssw0rd;Column Encryption Setting=enabled;TrustServerCertificate=True";
 
-    public static AdventureWorksDbContext CreateContext(
-    )
+    public static AdventureWorksDbContext CreateContext()
     {
         var context = new AdventureWorksDbContext(
             new DbContextOptionsBuilder<AdventureWorksDbContext>()
@@ -86,15 +87,25 @@ internal static class TestDatabaseFixture
     
     /// <summary>
     /// Delete all data in all of the tables in the database, referencing each property in the DbContext explicitly.
-    /// todo: refactor this to use reflection to get all properties in the DbContext and delete them
     /// </summary>
     private static async Task DeleteAllDataAsync(AdventureWorksDbContext context)
     {
-        context.Addresses.RemoveRange(context.Addresses);
-        context.StateProvinces.RemoveRange(context.StateProvinces);
-        context.SalesTerritory.RemoveRange(context.SalesTerritory);
-        context.CountryRegions.RemoveRange(context.CountryRegions);
-    
+        List<PropertyInfo> dbSetProperties = context.GetType().GetProperties()
+            .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+            .ToList();
+        
+        foreach (PropertyInfo dbSetProperty in dbSetProperties)
+        {
+            object dbSet = dbSetProperty.GetValue(context);
+            if (dbSet == null) continue;
+            
+            Type entityType = dbSetProperty.PropertyType.GetGenericArguments().First();
+            MethodInfo method = dbSet.GetType().GetMethod("RemoveRange", [typeof(IEnumerable<>).MakeGenericType(entityType)]);
+            if (method == null) continue;
+            
+            method.Invoke(dbSet, [dbSet]);
+        }
+        
         await context.SaveChangesAsync();
     }
     
@@ -104,18 +115,18 @@ internal static class TestDatabaseFixture
     /// </summary>
     private static async Task ResetIdentityColumns(AdventureWorksDbContext context)
     {
-        var entityTypes = context.Model.GetEntityTypes();
-        var tablesWithIdentity = entityTypes
+        IEnumerable<IEntityType> entityTypes = context.Model.GetEntityTypes();
+        List<IEntityType> tablesWithIdentity = entityTypes
             .Where(e =>
                 e.FindPrimaryKey()?.Properties.Any(p => p.ValueGenerated == ValueGenerated.OnAdd)
                 == true
             )
             .ToList();
     
-        foreach (var entityType in tablesWithIdentity)
+        foreach (IEntityType entityType in tablesWithIdentity)
         {
-            var tableName = entityType.GetTableName();
-            var schema = entityType.GetSchema();
+            string tableName = entityType.GetTableName();
+            string schema = entityType.GetSchema();
             await ResetIdentityColumn(context, tableName, schema);
         }
     }
@@ -129,7 +140,7 @@ internal static class TestDatabaseFixture
         string schema
     )
     {
-        var fullTableName = string.IsNullOrEmpty(schema)
+        string fullTableName = string.IsNullOrEmpty(schema)
             ? $"[{tableName}]"
             : $"[{schema}].[{tableName}]";
         // In SQL Server, the behavior of DBCC CHECKIDENT depends on the state of the table:
